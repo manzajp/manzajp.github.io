@@ -1,1 +1,1 @@
-# notmanzajp.github.io
+# http://manzajp.github.io

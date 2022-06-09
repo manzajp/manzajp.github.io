@@ -1,1 +1,0 @@
-# http://manzajp.github.io

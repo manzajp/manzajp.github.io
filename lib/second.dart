@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:js' as js;
 
 import 'package:outcast_web/provider/page.dart';
+import 'package:outcast_web/widgets.dart';
 import 'package:provider/provider.dart';
 
 class SecondPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _SecondPageState extends State<SecondPage> {
 
   @override
   Widget build(BuildContext context) {
-    final navigator = Navigator.of(context);
+    // final navigator = Navigator.of(context);
     final pageProvider = context.read<PageModel>();
 
     Widget expandedButton({required String text, void Function()? onPressed}) => Expanded(
@@ -62,12 +63,14 @@ class _SecondPageState extends State<SecondPage> {
                     expandedButton(
                         text: buttonDialogTitles.first,
                         onPressed: () {
+                          snackbar(context, text: 'Goodbye!');
                           js.context.callMethod('open', ['https://www.google.com', '_self']);
                         }),
                     expandedButton(
                         text: buttonDialogTitles.last,
                         onPressed: () {
                           // navigator.pop();
+                          snackbar(context, text: 'Hello, welcome!');
                           pageProvider.setPageNo = 0;
                           print(pageProvider.getPageNo);
                         })

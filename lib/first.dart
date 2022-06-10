@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:outcast_web/provider/page.dart';
-import 'package:outcast_web/second.dart';
+import 'package:outcast_web/widgets.dart';
 import 'package:provider/provider.dart';
 
 class FirstPage extends StatefulWidget {
@@ -27,25 +27,6 @@ class _FirstPageState extends State<FirstPage> {
     final navigator = Navigator.of(context);
     final pageProvider = context.read<PageModel>();
 
-    void onPressedNull() {}
-    Widget expandedButton({required String text, void Function()? onPressed}) => Expanded(
-          child: Card(
-            elevation: 3,
-            child: MaterialButton(
-              onPressed: onPressed,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    text,
-                    style: GoogleFonts.robotoCondensed(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-
     List<Widget> bodyWidget = buttonTitles
         .map((e) => (e == buttonTitles.first)
             ? expandedButton(
@@ -54,7 +35,11 @@ class _FirstPageState extends State<FirstPage> {
                   showDialog(
                       barrierDismissible: false,
                       context: context,
-                      builder: (context) => Center(
+                      builder: (context) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) => snackbar(context, text: 'A dialog appears!'));
+                        return Scaffold(
+                          backgroundColor: Colors.transparent,
+                          body: Center(
                             child: Card(
                               margin: EdgeInsets.zero,
                               child: SizedBox(
@@ -73,10 +58,12 @@ class _FirstPageState extends State<FirstPage> {
                                 ),
                               ),
                             ),
-                          ));
+                          ),
+                        );
+                      });
                 },
               )
-            : (e == buttonTitles.last)
+            : (e == buttonTitles[1])
                 ? expandedButton(
                     text: e,
                     onPressed: () {
@@ -85,14 +72,47 @@ class _FirstPageState extends State<FirstPage> {
                       //   builder: (context) => const SecondPage(),
                       // ),
                       // );
-                      pageProvider.setPageNo = pageProvider.pages.length - 1;
+                      // pageProvider.setPageNo = 1;
+                      switch (pageProvider.getSecretPage) {
+                        case 0:
+                          snackbar(context, text: 'Were you expecting something?');
+                          break;
+                        case 1:
+                          snackbar(context, text: 'Wow, you really think there\'s something here?');
+                          break;
+                        case 2:
+                          snackbar(context, text: 'Slow down, there\'s nothing alright!');
+                          break;
+                        case 3:
+                          snackbar(context, text: 'You ain\'t gonna find anything, trust me!');
+                          break;
+                        case 4:
+                          snackbar(context, text: 'You are playing such a stupid games, there\'s really nothing here, move on!');
+                          break;
+                        default:
+                      }
+                      (pageProvider.getSecretPage < 5) ? pageProvider.setSecretPage = pageProvider.getSecretPage + 1 : pageProvider.setPageNo = 1;
                       print(pageProvider.getPageNo);
                     },
                   )
-                : expandedButton(
-                    text: e,
-                    onPressed: onPressedNull,
-                  ))
+                : (e == buttonTitles.last)
+                    ? expandedButton(
+                        text: e,
+                        onPressed: () {
+                          // navigator.push(
+                          // MaterialPageRoute(
+                          //   builder: (context) => const SecondPage(),
+                          // ),
+                          // );
+                          snackbar(context, text: 'Onto a new page!');
+                          pageProvider.setPageNo = pageProvider.pages.length - 1;
+                          print(pageProvider.getPageNo);
+                        },
+                      )
+                    : expandedButton(
+                        text: e,
+                        onPressed: onPressedNull,
+                      ))
         .toList();
 
     Widget body = Center(

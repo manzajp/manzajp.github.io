@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outcast_web/first.dart';
 import 'package:outcast_web/provider/page.dart';
 import 'package:outcast_web/second.dart';
+import 'package:outcast_web/test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -42,11 +43,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<Widget> pages = const [
-    FirstPage(),
-    SecondPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final pageProvider = context.read<PageModel>();

@@ -1,4 +1,0 @@
-[submodule "manzajp.github.io"]
-	path = build/web
-	url = https://github.com/manzajp/manzajp.github.io
-	branch = site_generator
